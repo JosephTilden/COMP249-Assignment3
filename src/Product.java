@@ -35,4 +35,8 @@ public class Product {
     public void setInitialPrice(double initialPrice) {
         this.initialPrice = initialPrice;
     }
+
+    public int compareTo(Product other) {
+        return this.productName.compareTo(other.productName);
+    }
 }
