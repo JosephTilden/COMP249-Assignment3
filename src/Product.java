@@ -4,6 +4,13 @@ public class Product {
     private String category = "";
     private double initialPrice = 0;
 
+    public Product(String productName, String country, String category, double initialPrice) {
+        this.productName = productName;
+        this.country = country;
+        this.category = category;
+        this.initialPrice = initialPrice;
+    }
+
     public String getProductName() {
         return productName;
     }
