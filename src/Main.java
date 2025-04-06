@@ -28,6 +28,7 @@ public class Main {
                 imposeTariffs(product);
                 products.add(product);
             }
+            scan.close();
         } catch (FileNotFoundException e) {
             // TODO STUFF
         }
@@ -38,7 +39,8 @@ public class Main {
         I-I-I be poppin bottles....
          */
         try{
-            PrintWriter outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt"));
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt",false));
+            outputStream.print("");//Clear the old content
             outputStream.close(); //USED TO WIPE THE CONTENTS OF THE FILE
             outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt", true));
             Product.sort(products);
