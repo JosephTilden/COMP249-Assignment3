@@ -22,9 +22,7 @@ public class Main {
             String[] tradeFields = {};
             Product product;
             do  {
-                System.out.println("HASLINE");
                 trade = scan.nextLine();
-                System.out.println(trade);
                 tradeFields = trade.split(",");
                 product = new Product(tradeFields[0], tradeFields[1],tradeFields[2], Double.parseDouble(tradeFields[3]));
                 imposeTariffs(product);
@@ -36,16 +34,9 @@ public class Main {
             // TODO STUFF
             System.out.println("NOT THERE");
         }
-
-        System.out.println("PRODUCTS");
-        for (Product product : products) {
-            System.out.println(product);
-        }
-
         /*
         I-I-I be poppin bottles....
          */
-
         try{
             PrintWriter outputStream = new PrintWriter(new FileOutputStream("src/UpdatedTradeData.txt",false));
             outputStream.print("");//Clear the old content
