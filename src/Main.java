@@ -3,6 +3,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
+    public static void imposeTariffs(Product product) {
+        /*
+        TODO Swtich for country and then conditionals within that
+         */
+
+    }
+
     public static void main(String[] args) {
         ArrayList<Product> products = new ArrayList<Product>();
         final String tradeData = "./TradeData";
@@ -10,20 +18,18 @@ public class Main {
         // Read da file
         try {
             Scanner scan = new Scanner(new FileInputStream(tradeData));
-            /*
-            Scan line by line
-            if a line is incomplete ignore it <-- mismatch
-            Put all fields into constructor
-             */
-
-
-            /*
-            Check for tariffs and modify of needed
-            Add new product object to arrayList
-             */
-
+            String trade;
+            String[] tradeFields = {};
+            Product product;
+            while (scan.hasNextLine()) {
+                trade = scan.nextLine();
+                tradeFields = trade.split(",");
+                product = new Product(tradeFields[0], tradeFields[1],tradeFields[2], Double.parseDouble(tradeFields[3]));
+                imposeTariffs(product);
+                products.add(product);
+            }
         } catch (FileNotFoundException e) {
-            // DO STUFF
+            // TODO STUFF
         }
 
 
