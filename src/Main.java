@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -33,6 +31,18 @@ public class Main {
         /*
         I-I-I be poppin bottles....
          */
+        try{
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt"));
+            outputStream.close(); //USED TO WIPE THE CONTENTS OF THE FILE
+            outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt", true));
+            Product.sort(products);
+            for (int i=0;i<products.size();i++){
+                outputStream.println(products.get(i).toString());
+            }
+            outputStream.close();//FINALLY CLOSING THE PRINT WRITER
+        } catch (FileNotFoundException e){
+            System.out.print(e.getMessage());
+        }
 
 
 
