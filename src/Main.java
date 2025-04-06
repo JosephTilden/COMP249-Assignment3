@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<Product> products = new ArrayList<Product>();
-        final String tradeData = "./TradeData";
+        final String tradeData = "src/TradeData.txt";
 
         // Read da file
         try {
@@ -21,28 +21,36 @@ public class Main {
             String trade;
             String[] tradeFields = {};
             Product product;
-            while (scan.hasNextLine()) {
+            do  {
+                System.out.println("HASLINE");
                 trade = scan.nextLine();
+                System.out.println(trade);
                 tradeFields = trade.split(",");
                 product = new Product(tradeFields[0], tradeFields[1],tradeFields[2], Double.parseDouble(tradeFields[3]));
                 imposeTariffs(product);
                 products.add(product);
-            }
+            } while ((scan.hasNextLine()));
+
             scan.close();
         } catch (FileNotFoundException e) {
             // TODO STUFF
+            System.out.println("NOT THERE");
         }
 
-
+        System.out.println("PRODUCTS");
+        for (Product product : products) {
+            System.out.println(product);
+        }
 
         /*
         I-I-I be poppin bottles....
          */
+
         try{
-            PrintWriter outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt",false));
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream("src/UpdatedTradeData.txt",false));
             outputStream.print("");//Clear the old content
             outputStream.close(); //USED TO WIPE THE CONTENTS OF THE FILE
-            outputStream = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt", true));
+            outputStream = new PrintWriter(new FileOutputStream("src/UpdatedTradeData.txt", true));
             Product.sort(products);
             for (int i=0;i<products.size();i++){
                 outputStream.println(products.get(i).toString());
