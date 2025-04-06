@@ -1,14 +1,35 @@
+import java.util.ArrayList;
+
 public class Product {
     private String productName = "";
     private String country = "";
     private String category = "";
-    private double initialPrice = 0;
+    private double price = 0;
 
-    public Product(String productName, String country, String category, double initialPrice) {
+    public static void sort(ArrayList<Product> list){
+        for(int i=0;i<list.size();i++){
+            Product lowest = list.get(i);
+            int lowestFormerIndex=i;
+            for (int j=i;j<list.size();j++){
+                if (list.get(j).compareTo(lowest)<0){
+                    lowest = list.get(j); //GET NEW SMALLEST ELEMENT
+                    lowestFormerIndex=j;
+                }
+            }
+            Product temp = list.get(i); //ASSUMED SMALLEST ELEMENT
+            list.remove(i);//REMOVING ASSUMED SMALLEST ELEMENT
+            list.add(i,lowest);//ADDING TRUE SMALLEST ELEMENT TO LOWEST INDEX
+            list.remove(lowestFormerIndex);//REMOVING TRUE SMALLEST ELEMENT FROM FORMER INDEX
+            list.add(lowestFormerIndex,temp);//ADDING ASSUMED SMALLEST ELEMENT TO NEW INDEX
+
+
+        }
+    }
+    public Product(String productName, String country, String category, double price) {
         this.productName = productName;
         this.country = country;
         this.category = category;
-        this.initialPrice = initialPrice;
+        this.price = price;
     }
 
     public String getProductName() {
@@ -35,15 +56,19 @@ public class Product {
         this.category = category;
     }
 
-    public double getInitialPrice() {
-        return initialPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setInitialPrice(double initialPrice) {
-        this.initialPrice = initialPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int compareTo(Product other) {
         return this.productName.compareTo(other.productName);
+    }
+
+    public String toString(){
+        return productName+","+country+","+category+","+ price;
     }
 }
