@@ -1,5 +1,16 @@
+//-----------------------------------
+// Assignment 3
+// Question: Part 1: ArrayList & File I/O
+// Written by: Zayden Kung'u (40311065) & Joseph Tilden (40317545)
+//-----------------------------------
+
+package Part1;
+
 import java.util.ArrayList;
 
+/**
+ * Instances of Product are to hold data for a given trade in TradeData.txt
+ */
 public class Product {
     private String productName = "";
     private String country = "";
@@ -21,10 +32,9 @@ public class Product {
             list.add(i,lowest);//ADDING TRUE SMALLEST ELEMENT TO LOWEST INDEX
             list.remove(lowestFormerIndex);//REMOVING TRUE SMALLEST ELEMENT FROM FORMER INDEX
             list.add(lowestFormerIndex,temp);//ADDING ASSUMED SMALLEST ELEMENT TO NEW INDEX
-
-
         }
     }
+
     public Product(String productName, String country, String category, double price) {
         this.productName = productName;
         this.country = country;

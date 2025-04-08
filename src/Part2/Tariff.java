@@ -1,3 +1,11 @@
+//-----------------------------------
+// Assignment 3
+// Question: Part 1: ArrayList & File I/O
+// Written by: Zayden Kung'u (40311065) & Joseph Tilden (40317545)
+//-----------------------------------
+
+package Part2;
+
 public class Tariff{
     private String destinationCountry;
     private String originCountry;
@@ -50,6 +58,7 @@ public class Tariff{
         this.productCategory=productCategory;
     }
 
+    // TODO not sure if this is the right implementation
     public Tariff clone(){
         return new Tariff(this);
     }
