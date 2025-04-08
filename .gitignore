@@ -2,7 +2,9 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.idea
+.idea/
+*.iml
+*.iws
 
 ### Eclipse ###
 .apt_generated
@@ -32,3 +34,13 @@ COMP249 Assignment3.iml
 .idea/vcs.xml
 .idea/modules.xml
 .idea/misc.xml
+
+# Java build directories
+target/
+build/
+
+# OS-specific files
+Thumbs.db
+
+# Logs and temporary files
+*.log
