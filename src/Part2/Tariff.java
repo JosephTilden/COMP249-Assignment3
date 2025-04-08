@@ -70,8 +70,9 @@ public class Tariff{
     public boolean equals(Tariff otherTariff){
         if (Math.abs(this.minimumTariff-otherTariff.getMinimumTariff())<0.0000001){
             return (this.destinationCountry.equals(otherTariff.getDestinationCountry())&&this.originCountry.equals(otherTariff.getOriginCountry())&&this.productCategory.equals(otherTariff.getProductCategory()));
+        }else{
+            return false;
         }
-        return false;
     }
 
     
