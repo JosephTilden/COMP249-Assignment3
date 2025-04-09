@@ -1,6 +1,7 @@
 package Part2;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -12,7 +13,7 @@ public class TradeManager {
     public static void main(String[] args) {
         TariffList tariffList1 = new TariffList(); //List used to add the initial tariffs
         TariffList tariffList2 = new TariffList(); //Not sure what the second is for yet
-        ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
+        ArrayList<TradeRequest> allTradeRequests = new ArrayList<TradeRequest>();
         Scanner reader = null;
         String currentLine;
         try {
@@ -43,7 +44,7 @@ public class TradeManager {
                 int tempProposedTariff = Integer.parseInt(tradeRequestsAttributes[5]);
                 TradeRequest tempTradeRequest = new TradeRequest(tempRequestID, tempOriginCountry, tempDestinationCountry, tempProductCategory, tempProposedTariff, tempProposedTariff);
                 allTradeRequests.add(tempTradeRequest);
-                if (!tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory)==null){
+                if (tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory)!=null){
                     //POSSIBLE MATCH
                 }else{
                     //NO POSSIBLE MATCH
