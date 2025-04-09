@@ -11,6 +11,7 @@ public class TradeManager {
     public static void main(String[] args) {
         TariffList tariffList1 = new TariffList(); //List used to add the initial tariffs
         TariffList tariffList2 = new TariffList(); //Not sure what the second is for yet
+        ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
         Scanner reader = null;
         String currentLine;
         try {
@@ -28,15 +29,26 @@ public class TradeManager {
                 }
                 double tempMinimumTariff = Double.parseDouble(tariffAttributesData[3]);
                 tariffList1.addToStart(new Tariff(tempDestinationCountry,tempOriginCountry,tempProductCategory,tempMinimumTariff)); 
-            }
+            }//FINISHED READING ALL TARIFFS
             reader = new Scanner (new FileReader("TariffRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
-                /*
-                 * ZAYDEN CODES CONTINUES HERE
-                 */
-
-            }
+                String[] tradeRequestsAttributes = currentLine.split(" ");
+                String tempRequestID = tradeRequestsAttributes[0];
+                String tempOriginCountry = tradeRequestsAttributes[1];
+                String tempDestinationCountry = tradeRequestsAttributes[2];
+                String tempProductCategory = tradeRequestsAttributes[3];
+                String tempTradeVaue = tradeRequestsAttributes[4];
+                int tempProposedTariff = Integer.parseInt(tradeRequestsAttributes[5]);
+                TradeRequest tempTradeRequest = new TradeRequest(tempRequestID, tempOriginCountry, tempDestinationCountry, tempProductCategory, tempProposedTariff, tempProposedTariff);
+                allTradeRequests.add(tempTradeRequest);
+                if (!tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory)==null){
+                    //POSSIBLE MATCH
+                }else{
+                    //NO POSSIBLE MATCH
+                }
+                              
+            }//FINISHED READING ALL TRADE REQUESTS 
 
         } catch (FileNotFoundException e){//If the file is not found for some reason
             e.getMessage();
