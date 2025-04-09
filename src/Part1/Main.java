@@ -98,7 +98,9 @@ public class Main {
             scan.close();
         } catch (FileNotFoundException e) {
             System.out.println("There was an error reading the trade data file. More info:\n" + e.getMessage());
+            System.exit(0);
         }
+
         /*
         I-I-I be poppin bottles....
          */
@@ -117,9 +119,7 @@ public class Main {
             outputStream.close();//FINALLY CLOSING THE PRINT WRITER
         } catch (FileNotFoundException e){
             System.out.print(e.getMessage());
+            System.exit(0);
         }
-
-
-
     }
 }
