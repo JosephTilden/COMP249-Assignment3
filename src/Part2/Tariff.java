@@ -6,7 +6,7 @@
 
 package Part2;
 
-public class Tariff{
+public class Tariff implements Cloneable {
     private String destinationCountry;
     private String originCountry;
     private String productCategory;
@@ -58,9 +58,16 @@ public class Tariff{
         this.productCategory=productCategory;
     }
 
-    // TODO not sure if this is the right implementation
+    /**
+     * Non mutable instance variables implementation
+     * @return a deep copy of a Tariff
+     */
     public Tariff clone(){
-        return new Tariff(this);
+        try {
+            return (Tariff) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null; // Never happens
+        }
     }
 
     public String toString(){

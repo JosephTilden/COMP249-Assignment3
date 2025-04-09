@@ -1,6 +1,7 @@
 package Part2;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -15,7 +16,7 @@ public class TradeManager {
         System.out.println("Welcome to Joe and Zayden's Thugnificent Tariff Management System\n");
         TariffList tariffList1 = new TariffList(); //List used to add the initial tariffs
         TariffList tariffList2 = new TariffList(); //Not sure what the second is for yet
-        ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
+        ArrayList<TradeRequest> allTradeRequests = new ArrayList<TradeRequest>();
         Scanner reader = null;
         String currentLine;
         try {
