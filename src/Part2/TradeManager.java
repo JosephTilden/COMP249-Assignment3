@@ -1,7 +1,8 @@
+package Part2;
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.util.ArrayList;
 
 
 public class TradeManager {
@@ -16,7 +17,7 @@ public class TradeManager {
         String currentLine;
         try {
             //FIRST FILE READ
-            reader = new Scanner(new FileReader("Tariff.txt"));
+            reader = new Scanner(new FileReader("./Tariff.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
                 String[] tariffAttributesData = currentLine.split(" ");
@@ -29,8 +30,8 @@ public class TradeManager {
                 }
                 double tempMinimumTariff = Double.parseDouble(tariffAttributesData[3]);
                 tariffList1.addToStart(new Tariff(tempDestinationCountry,tempOriginCountry,tempProductCategory,tempMinimumTariff)); 
-            }//FINISHED READING ALL TARIFFS
-            reader = new Scanner (new FileReader("TariffRequests.txt"));
+            }
+            reader = new Scanner (new FileReader("./TariffRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
                 String[] tradeRequestsAttributes = currentLine.split(" ");
