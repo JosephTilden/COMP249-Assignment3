@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
+// TODO deleted chanegs
 
 public class TradeManager {
     //Tariff Objects are simply the RULES
@@ -30,7 +31,7 @@ public class TradeManager {
                 String tempOriginCountry = tariffAttributesData[1];
                 String tempProductCategory = tariffAttributesData[2];
                 if (tariffList1.contains(tempOriginCountry,tempDestinationCountry,tempProductCategory)){//Checking whether the tariff already exists
-                    continue;//Not adding it to the list if it does
+                    continue;//Not adding it to the list if it does // TODO issue
                 }
                 double tempMinimumTariff = Double.parseDouble(tariffAttributesData[3]);
                 tariffList1.addToStart(new Tariff(tempDestinationCountry,tempOriginCountry,tempProductCategory,tempMinimumTariff)); 
@@ -47,7 +48,8 @@ public class TradeManager {
                 int tempProposedTariff = Integer.parseInt(tradeRequestsAttributes[5]);
                 TradeRequest tempTradeRequest = new TradeRequest(tempRequestID, tempOriginCountry, tempDestinationCountry, tempProductCategory, tempProposedTariff, tempProposedTariff);
                 allTradeRequests.add(tempTradeRequest);
-                if (!tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory)==null){
+                if (!tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory)==null){ // TODO issue
+                    // TODO issue
                     double possibleMatchMinimum = tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory).getValue().getMinimumTariff();//Getting the node's value (Tariff object), and accessing the tariff object's minimum tariff
                     if((tempProposedTariff>possibleMatchMinimum||tempProposedTariff-possibleMatchMinimum>0.000001)){//if proposition is equal or greater than tariff
                         System.out.println(tempRequestID+" - Accepted.");
@@ -69,6 +71,7 @@ public class TradeManager {
                 }                              
             }//FINISHED READING ALL TRADE REQUESTS 
 
+        // TODO proper error catch
         } catch (FileNotFoundException e){//If the file is not found for some reason
             e.getMessage();
             System.exit(0);//Close entire system
