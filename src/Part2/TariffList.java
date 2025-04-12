@@ -1,33 +1,42 @@
+//-----------------------------------
+// Assignment 3
+// Question: Part 1: ArrayList & File I/O
+// Written by: Zayden Kung'u (40311065) & Joseph Tilden (40317545)
+//-----------------------------------
+
+
 package Part2;
 
 import java.util.NoSuchElementException;
 
+/**
+ * An array list with TariffNodes as a public static inner class. The reason for public static is
+ * explained within. It implements methods for modifying the list and finding nodes, as well as a trade evaluation
+ * method.
+ */
 public class TariffList implements TariffPolicy {
     private TariffNode head = null;
     private int size = 0;
 
-
     public TariffList() {}
-
-    // TODO: unclear instructions. Deep copy?
 
     /**
      * Creates a duplicate TariffList where each node has the same Tariff value, while remaining a deep copy.
      * @param other list to copy
      */
     public TariffList(TariffList other) {
-        /*
-        Copy head
-        Iterate through, copying
-
-        CASES: 0, 1, 2, 3
-         */
         if (other.size == 0) {
             head = null;
+            size = 0;
         } else {
-            head = new TariffNode(other.head.value, other.head.link);
-            TariffNode currentNode = head;
-            while (currentNode != null) {       // Includes final element
+            size = other.size;
+            head = new TariffNode(other.head);
+            TariffNode ogCurrentNode = other.head;
+            TariffNode copyCurrentNode = head;
+            while (ogCurrentNode != null) {       // Includes final element
+                ogCurrentNode = ogCurrentNode.link;
+                copyCurrentNode.link = new TariffNode(ogCurrentNode);
+                copyCurrentNode = copyCurrentNode.link;
             }
         }
     }
@@ -36,8 +45,12 @@ public class TariffList implements TariffPolicy {
         return size;
     }
 
-    // TODO research static warning
-    private class TariffNode implements Cloneable {
+    /**
+     * The TariffNode class must be public because the find() method of the linked list returns a TariffNode, not a
+     * Tariff object. So, TradeManager driver needs to be able to access TariffNodes as well.
+     * The class is static because it doesn't require any instance variables from the TariffList class.
+     */
+    public static class TariffNode implements Cloneable {
         private Tariff value = null;
         private TariffNode link = null;
 
@@ -51,7 +64,7 @@ public class TariffList implements TariffPolicy {
 
         public TariffNode(TariffNode other) {
             this.value = new Tariff(other.value);
-            this.link = other.link; // Keeps same link I'm assuming. Might be a privacy leak                        !!!
+            this.link = other.link; // Keeps same link I'm assuming. Might be a privacy leak // TODO check this
         }
 
         public Tariff getValue() {
@@ -107,7 +120,6 @@ public class TariffList implements TariffPolicy {
         size++;
     }
 
-    // TODO exposed outside visibility warning?
     /**
      * Finds a TariffNode in the TariffList based on 3 descriptors. Also prints total amount of iterations used to find
      * the target Node.
@@ -183,7 +195,6 @@ public class TariffList implements TariffPolicy {
             size--;
         } catch (IndexOutOfBoundsException e) {
             throw new NoSuchElementException(e.getMessage());         // Gives a message for empty lists as well
-            // TODO CATCH THIS MEANS TERMINATE PROGRAM
         }
     }
 
@@ -215,11 +226,51 @@ public class TariffList implements TariffPolicy {
         return (find(origin, destination, category) != null);
     }
 
+    /**
+     * Compares the proposed tariff from a trade request with the established minimum tariff.
+     * Accepted: proposed meets or exceeds minimum
+     * Conditionally accepted: The proposed tariff is lower than the minimum but within 20% of it. A surcharge is applied
+     * Rejected: The proposed tariff is more than 20% below the required tariff
+     * @param proposedTariff from trade request
+     * @param minimumTariff from tariff minimums list
+     * @return a string indicating if the trade is accepted, conditionally accepted, or rejected
+     */
     public String evaluateTrade(double proposedTariff, double minimumTariff) {
+        proposedTariff = twoDecimalRound(proposedTariff);
+        minimumTariff = twoDecimalRound(minimumTariff);
 
+        if (proposedTariff >= minimumTariff) {
+            return "Accepted: Proposed tariff ("+proposedTariff+"%) meets or exceeds the minimum requirement ("+minimumTariff+"%).\n";
+        }
+
+        boolean within20Percent = proposedTariff > minimumTariff * 0.8;
+        if (within20Percent) {
+            return String.format("Conditionally Accepted: Proposed tariff (%f.2) is within 20 percent of the required minimum tariff (%f.2).",
+                    proposedTariff, minimumTariff);
+        }
+        return String.format("Rejected: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).");
     }
 
-    public boolean equals(TariffList other) {}
+    /**
+     * Compares the Tariffs in each node of both lists.
+     * @param other TariffList to compare to
+     * @return equality of Tariff information for each node
+     */
+    public boolean equals(TariffList other) {
+        if (size != other.size) {
+            return false;
+        }
+        TariffNode ogCurrentNode = head;
+        TariffNode otherCurrentNode = other.head;
+        while (ogCurrentNode != null) {       // Includes final element
+            if (!(ogCurrentNode.equals(otherCurrentNode))) {
+                return false;
+            }
+            ogCurrentNode = ogCurrentNode.link;
+            otherCurrentNode = otherCurrentNode.link;
+        }
+        return true;
+    }
 
     // HELPER METHODS
     private TariffNode find(Tariff tariff) {
@@ -259,5 +310,9 @@ public class TariffList implements TariffPolicy {
             }
             return currentNode;
         }
+    }
+
+    private static double twoDecimalRound(double number){
+        return (double) Math.round(number*100)/100;
     }
 }

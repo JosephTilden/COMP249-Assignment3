@@ -6,6 +6,9 @@
 
 package Part2;
 
+/**
+ * Holds the minimum tariff information for specific kinds of trades between certain countries.
+ */
 public class Tariff implements Cloneable {
     private String destinationCountry;
     private String originCountry;
@@ -81,8 +84,4 @@ public class Tariff implements Cloneable {
             return false;
         }
     }
-
-    
-
-
 }
