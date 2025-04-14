@@ -6,15 +6,18 @@
 
 package Part2;
 
+/**
+ * Holds data from trade requests. Used to compare with minimum tariffs for trades.
+ */
 public class TradeRequest {
     private String requestID;
     private String originCountry;
     private String destinationCountry;
     private String productCategory;
-    private int tradeValue;
-    private int proposedTariff;
+    private double tradeValue;
+    private double proposedTariff;
 
-    public TradeRequest(String requestID, String originCountry, String destinationCountry, String productCategory, int tradeValue, int proposedTariff){
+    public TradeRequest(String requestID, String originCountry, String destinationCountry, String productCategory, double tradeValue, double proposedTariff){
         this.requestID=requestID;
         this.originCountry=originCountry;
         this.destinationCountry=destinationCountry;
@@ -52,22 +55,26 @@ public class TradeRequest {
     }
 
     public String getOriginCountry(){
-        return this.getOriginCountry();
+        return this.originCountry;
     }
 
     public String getDestinationCountry(){
-        return this.getDestinationCountry();
+        return this.destinationCountry;
     }
 
     public String getProductCategory(){
         return this.productCategory;
     }
 
-    public int getTradeValue(){
+    public double getTradeValue(){
         return this.tradeValue;
     }
 
-    public int getProposedTariff(){
-        return this.getProposedTariff();
+    public double getProposedTariff(){
+        return this.proposedTariff;
+    }
+
+    public String toString() {
+        return String.format("Request %s from %s to %s: %s, worth $%f.2 with %f.2 a percent Tariff", requestID, originCountry, destinationCountry, productCategory, tradeValue, proposedTariff);
     }
 }
