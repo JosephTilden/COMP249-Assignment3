@@ -130,26 +130,30 @@ public class TariffList implements TariffPolicy {
      */
     public TariffNode find(String origin, String destination, String category) {
         TariffNode currentNode = head;
-        int iterations = 0;
+        int iterations = 1;
         String findMsg = "Find method used: %d iterations\n";
         if (size == 0) {
             System.out.printf(findMsg, iterations);
             return null;
         }
         if (criteriaMatches(head, origin, destination, category)) {
-            System.out.printf(findMsg, ++iterations);    // Should be 1 iteration
+            System.out.printf(findMsg, iterations);    // Should be 1 iteration
             return head;
         }
+        if (size == 1) {
+            System.out.printf(findMsg, iterations);    // Should be 1 iteration
+            return null;
+        }
         currentNode = currentNode.link;     // Start at 2nd element
-        iterations++;                       // Should be 2
         while (currentNode != null) {      // Exits when all elements have been checked
+            iterations++;
             if (criteriaMatches(currentNode, origin, destination, category)) {
                 System.out.printf(findMsg, iterations);
                 return currentNode;
             }
-            iterations++;
             currentNode = currentNode.link;
         }
+        System.out.printf(findMsg, iterations);
         return null;
     }
 
@@ -223,6 +227,7 @@ public class TariffList implements TariffPolicy {
     }
 
     public boolean contains(String origin, String destination, String category) {
+        System.out.print("Contains method used --> ");
         return (find(origin, destination, category) != null);
     }
 
@@ -243,9 +248,9 @@ public class TariffList implements TariffPolicy {
             return "Accepted: Proposed tariff ("+proposedTariff+"%) meets or exceeds the minimum requirement ("+minimumTariff+"%).\n";
         }
 
-        boolean within20Percent = proposedTariff > minimumTariff * 0.8;
+        boolean within20Percent = proposedTariff >= minimumTariff * 0.8;
         if (within20Percent) {
-            return String.format("Conditionally Accepted: Proposed tariff (%.2f) is within 20 percent of the required minimum tariff (%.2f).",
+            return String.format("Conditionally Accepted: Proposed tariff (%.2f%%) is within 20%% of the required minimum tariff (%.2f%%).",
                     proposedTariff, minimumTariff);
         }
         return "Rejected: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).";

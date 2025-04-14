@@ -32,6 +32,7 @@ public class TradeManager {
         String currentLine;
         try {
             // READING TARIFFS FILE
+            System.out.println("===Reading Tariffs File===\n");
             reader = new Scanner(new FileReader("src/Part2/Tariffs.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
@@ -47,6 +48,7 @@ public class TradeManager {
                 }
             }
             // READING THE TRADE REQUESTS FILE
+            System.out.println("\n===Evaluating Trade Requests===\n");
             reader = new Scanner (new FileReader("src/Part2/TradeRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine(); // Create the trade request object
@@ -62,11 +64,12 @@ public class TradeManager {
                 allTradeRequests.add(tempTradeRequest);
 
                 // Compare trade request to minimums
+
                 if (tariffList1.contains(tempOriginCountry, tempDestinationCountry, tempProductCategory)) {     // Just to demonstrate contains method. Could be more efficient by using find once
                     double targetMinimum = tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory).getValue().getMinimumTariff(); //Getting the node's value (Tariff object), and accessing the tariff object's minimum tariff
                     System.out.println("Evaluating: \n" + tempTradeRequest);
                     String tradeEvaluation = tariffList1.evaluateTrade(tempProposedTariff, targetMinimum);
-                    System.out.println(tradeEvaluation);
+                    System.out.println("..." + tradeEvaluation + "\n");
                     // Surcharge calculation
                     if (tradeEvaluation.contains("Conditionally\n")) {
                         double surcharge = twoDecimalRound(tempTradeValue * ((targetMinimum - tempProposedTariff) / 100));

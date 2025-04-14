@@ -75,6 +75,6 @@ public class TradeRequest {
     }
 
     public String toString() {
-        return String.format("Request %s from %s to %s:\n%s, worth $%.2f with %.2f a percent tariff", requestID, originCountry, destinationCountry, productCategory, tradeValue, proposedTariff);
+        return String.format("Request %s from %s to %s:\n%s, worth $%.2f with a %.2f%% Tariff", requestID, originCountry, destinationCountry, productCategory, tradeValue, proposedTariff);
     }
 }
