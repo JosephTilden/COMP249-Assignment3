@@ -245,7 +245,7 @@ public class TariffList implements TariffPolicy {
 
         boolean within20Percent = proposedTariff > minimumTariff * 0.8;
         if (within20Percent) {
-            return String.format("Conditionally Accepted: Proposed tariff (%f.2) is within 20 percent of the required minimum tariff (%f.2).",
+            return String.format("Conditionally Accepted: Proposed tariff (%.2f ) is within 20 percent of the required minimum tariff (%.2f ).",
                     proposedTariff, minimumTariff);
         }
         return String.format("Rejected: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).");

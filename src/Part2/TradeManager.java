@@ -32,7 +32,7 @@ public class TradeManager {
         String currentLine;
         try {
             // READING TARIFFS FILE
-            reader = new Scanner(new FileReader("./Tariff.txt"));
+            reader = new Scanner(new FileReader("src/Part2/Tariffs.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
                 String[] tariffAttributesData = currentLine.split(" ");
@@ -47,7 +47,7 @@ public class TradeManager {
                 }
             }
             // READING THE TRADE REQUESTS FILE
-            reader = new Scanner (new FileReader("./TariffRequests.txt"));
+            reader = new Scanner (new FileReader("src/Part2/TradeRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine(); // Create the trade request object
                 String[] tradeRequestsAttributes = currentLine.split(" ");
@@ -64,13 +64,13 @@ public class TradeManager {
                 // Compare trade request to minimums
                 if (tariffList1.contains(tempOriginCountry, tempDestinationCountry, tempProductCategory)) {     // Just to demonstrate contains method. Could be more efficient by using find once
                     double targetMinimum = tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory).getValue().getMinimumTariff(); //Getting the node's value (Tariff object), and accessing the tariff object's minimum tariff
-                    System.out.println("Evaluating: " + tempTradeRequest);
+                    System.out.println("Evaluating: \n" + tempTradeRequest);
                     String tradeEvaluation = tariffList1.evaluateTrade(tempProposedTariff, targetMinimum);
                     System.out.println(tradeEvaluation);
                     // Surcharge calculation
-                    if (tradeEvaluation.contains("Conditionally")) {
+                    if (tradeEvaluation.contains("Conditionally\n")) {
                         double surcharge = twoDecimalRound(tempTradeValue * ((targetMinimum - tempProposedTariff) / 100));
-                        System.out.println("A surcharge of $"+surcharge+" is applied.\n");
+                        System.out.println("\nA surcharge of $"+surcharge+" is applied.\n");
                     }
                 } else {//No tariff matches the request
                     System.out.println(tempRequestID+" - No tariffs found.\n");
