@@ -240,7 +240,7 @@ public class TariffList implements TariffPolicy {
         minimumTariff = twoDecimalRound(minimumTariff);
 
         if (proposedTariff >= minimumTariff) {
-            return "Accepted: Proposed tariff ("+proposedTariff+"% ) meets or exceeds the minimum requirement ("+minimumTariff+"% ).\n";
+            return "Accepted: Proposed tariff ("+proposedTariff+"%) meets or exceeds the minimum requirement ("+minimumTariff+"%).\n";
         }
 
         boolean within20Percent = proposedTariff > minimumTariff * 0.8;
@@ -248,7 +248,7 @@ public class TariffList implements TariffPolicy {
             return String.format("Conditionally Accepted: Proposed tariff (%.2f) is within 20 percent of the required minimum tariff (%.2f).",
                     proposedTariff, minimumTariff);
         }
-        return "Rejected: Proposed tariff ("+proposedTariff+"% ) is below the minimum requirement ("+minimumTariff+"% ).";
+        return "Rejected: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).";
     }
 
     /**
