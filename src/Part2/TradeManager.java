@@ -58,7 +58,7 @@ public class TradeManager {
                 double tempTradeValue = Double.parseDouble(tradeRequestsAttributes[4]);
                 double tempProposedTariff = Double.parseDouble(tradeRequestsAttributes[5]);
 
-                TradeRequest tempTradeRequest = new TradeRequest(tempRequestID, tempOriginCountry, tempDestinationCountry, tempProductCategory, tempProposedTariff, tempProposedTariff);
+                TradeRequest tempTradeRequest = new TradeRequest(tempRequestID, tempOriginCountry, tempDestinationCountry, tempProductCategory, tempTradeValue, tempProposedTariff);
                 allTradeRequests.add(tempTradeRequest);
 
                 // Compare trade request to minimums
