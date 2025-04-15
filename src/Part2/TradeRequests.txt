@@ -2,17 +2,13 @@ REQ001 USA China Electronics 100000 20
 REQ002 China USA Agriculture 50000 35
 REQ003 Germany USA Automobiles 80000 5
 REQ004 USA China Electronics 1200 25         // Accepted
-REQ005 USA China Electronics 800 22          // Conditionally Accepted
-REQ006 USA China Electronics 1000 19         // Rejected
-REQ007 China USA Agriculture 10000 30        // Accepted
 REQ008 China USA Agriculture 8000 26         // Conditionally Accepted
 REQ009 China USA Agriculture 6000 22         // Rejected
 REQ010 USA Germany Automobiles 30000 10      // Accepted
-REQ011 USA Germany Automobiles 27000 9       // Conditionally Accepted
-REQ012 USA Germany Automobiles 25000 7       // Rejected
-REQ013 USA China Electronics 500 25          // Accepted
-REQ014 USA China Electronics 500 20          // Conditionally Accepted
-REQ015 USA China Electronics 500 18          // Rejected
-REQ016 China USA Agriculture 40000 30        // Accepted
-REQ017 China USA Agriculture 30000 27        // Conditionally Accepted
-REQ018 China USA Agriculture 25000 23        // Rejected
+REQ011 USA China Electronics 500 20          // Conditionally Accepted
+REQ012 USA China Electronics 500 18          // Rejected
+REQ013 Japan Brazil Textile 75000 50
+REQ014 Japan Brazil Agriculture 75000 50
+REQ015 Japan Brazil Textile 75000 51
+REQ016 Japan Brazil Textile 75000 49
+REQ017 Bangladesh India Energy 75000 100

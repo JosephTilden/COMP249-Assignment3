@@ -132,17 +132,13 @@ public class TariffList implements TariffPolicy {
         TariffNode currentNode = head;
         int iterations = 1;
         String findMsg = "Find method used: %d iterations\n";
-        if (size == 0) {
+        if (size == 0 || (!criteriaMatches(head, origin, destination, category) && size == 1)) {
             System.out.printf(findMsg, iterations);
             return null;
         }
         if (criteriaMatches(head, origin, destination, category)) {
             System.out.printf(findMsg, iterations);    // Should be 1 iteration
             return head;
-        }
-        if (size == 1) {
-            System.out.printf(findMsg, iterations);    // Should be 1 iteration
-            return null;
         }
         currentNode = currentNode.link;     // Start at 2nd element
         while (currentNode != null) {      // Exits when all elements have been checked
@@ -227,7 +223,7 @@ public class TariffList implements TariffPolicy {
     }
 
     public boolean contains(String origin, String destination, String category) {
-        System.out.print("Contains method used --> ");
+        System.out.print("Contains method --> ");
         return (find(origin, destination, category) != null);
     }
 
@@ -245,15 +241,15 @@ public class TariffList implements TariffPolicy {
         minimumTariff = twoDecimalRound(minimumTariff);
 
         if (proposedTariff >= minimumTariff) {
-            return "Accepted: Proposed tariff ("+proposedTariff+"%) meets or exceeds the minimum requirement ("+minimumTariff+"%).\n";
+            return "ACCEPTED: Proposed tariff ("+proposedTariff+"%) meets or exceeds the minimum requirement ("+minimumTariff+"%).";
         }
 
         boolean within20Percent = proposedTariff >= minimumTariff * 0.8;
         if (within20Percent) {
-            return String.format("Conditionally Accepted: Proposed tariff (%.2f%%) is within 20%% of the required minimum tariff (%.2f%%).",
+            return String.format("CONDITIONALLY ACCEPTED: Proposed tariff (%.1f%%) is within 20%% of the required minimum tariff (%.1f%%).",
                     proposedTariff, minimumTariff);
         }
-        return "Rejected: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).";
+        return "REJECTED: Proposed tariff ("+proposedTariff+"%) is below the minimum requirement ("+minimumTariff+"%).";
     }
 
     /**
@@ -283,9 +279,9 @@ public class TariffList implements TariffPolicy {
     }
 
     private boolean criteriaMatches(TariffNode node, String origin, String destination, String category) {
-        return (node.value.getOriginCountry().equals(origin) &&
-                node.value.getDestinationCountry().equals(destination) &&
-                node.value.getProductCategory().equals(category));
+        return (node.value.getOriginCountry().equalsIgnoreCase(origin) &&
+                node.value.getDestinationCountry().equalsIgnoreCase(destination) &&
+                node.value.getProductCategory().equalsIgnoreCase(category));
     }
 
     /**

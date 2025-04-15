@@ -26,13 +26,14 @@ public class TradeManager {
     public static void main(String[] args) {
         System.out.println("Welcome to Joe and Zayden's Thugnificent Tariff Management System 🗣️\n");
         TariffList tariffList1 = new TariffList(); //List used to add the initial tariffs
-        TariffList tariffList2 = new TariffList(); //Not sure what the second is for yet
+        TariffList tariffList2 = new TariffList(); //For copy constructor
+        TariffList tariffList3 = new TariffList(); //For clone method
         ArrayList<TradeRequest> allTradeRequests = new ArrayList<TradeRequest>();
         Scanner reader = null;
         String currentLine;
         try {
             // READING TARIFFS FILE
-            System.out.println("===Reading Tariffs File===\n");
+            System.out.println("========= Reading Tariffs File =========\n");
             reader = new Scanner(new FileReader("src/Part2/Tariffs.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
@@ -48,7 +49,7 @@ public class TradeManager {
                 }
             }
             // READING THE TRADE REQUESTS FILE
-            System.out.println("\n===Evaluating Trade Requests===\n");
+            System.out.println("\n========= Evaluating Trade Requests =========\n");
             reader = new Scanner (new FileReader("src/Part2/TradeRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine(); // Create the trade request object
@@ -64,23 +65,23 @@ public class TradeManager {
                 allTradeRequests.add(tempTradeRequest);
 
                 // Compare trade request to minimums
-
                 if (tariffList1.contains(tempOriginCountry, tempDestinationCountry, tempProductCategory)) {     // Just to demonstrate contains method. Could be more efficient by using find once
                     double targetMinimum = tariffList1.find(tempOriginCountry,tempDestinationCountry,tempProductCategory).getValue().getMinimumTariff(); //Getting the node's value (Tariff object), and accessing the tariff object's minimum tariff
-                    System.out.println("Evaluating: \n" + tempTradeRequest);
+                    System.out.println("Evaluating...\n" + tempTradeRequest);
                     String tradeEvaluation = tariffList1.evaluateTrade(tempProposedTariff, targetMinimum);
-                    System.out.println("..." + tradeEvaluation + "\n");
+                    System.out.println("==> " + tradeEvaluation);
                     // Surcharge calculation
-                    if (tradeEvaluation.contains("Conditionally\n")) {
+                    if (tradeEvaluation.contains("CONDITIONALLY ACCEPTED")) {
                         double surcharge = twoDecimalRound(tempTradeValue * ((targetMinimum - tempProposedTariff) / 100));
-                        System.out.println("\nA surcharge of $"+surcharge+" is applied.\n");
+                        System.out.printf("==> A surcharge of $%.2f is applied.\n\n", surcharge);
+                    } else {
+                        System.out.println();
                     }
                 } else {//No tariff matches the request
                     System.out.println(tempRequestID+" - No tariffs found.\n");
                 }                              
             }//FINISHED READING ALL TRADE REQUESTS
             reader.close();
-
         } catch (FileNotFoundException e){//If any of the files are not found for some reason
             System.out.println("Invalid file name given. More details:\n" + e.getMessage());
             System.exit(0);
@@ -90,7 +91,38 @@ public class TradeManager {
             reader.close();//Close the scanner regardless of the outcome
             System.exit(0);
         }
+
+
+        // USER SEARCH FOR TARIFFS
+        System.out.println("========= Search for a Tariff =========\n");
+        reader = new Scanner(System.in);
+        Tariff targetTariff = null;
+        while (true) {
+            System.out.print("""
+                    To search for a tariff, enter the origin, destination, and category seperated by spaces.
+                    To continue to the method demonstration, enter C.
+                    >""");
+            String origin = reader.next();
+            if (origin.equalsIgnoreCase("C")) {
+                break;
+            }
+            String destination = reader.next();
+            String category = reader.next();
+            if (tariffList1.contains(origin, destination, category)) {
+                targetTariff = tariffList1.find(origin, destination, category).getValue();
+                System.out.println("Tariff found: " + targetTariff + "\n");
+            } else {
+                System.out.println("The tariff you are searching for does not exist.\n");
+            }
+        }
+
         // TARIFF LIST METHOD TESTING
+        System.out.println("\n========= Demonstration of Methods =========\n");
+        /*
+        Methods to test:
+
+
+         */
+
     }
 }
-       
