@@ -33,7 +33,7 @@ public class TariffList implements TariffPolicy {
             head = new TariffNode(other.head);
             TariffNode ogCurrentNode = other.head;
             TariffNode copyCurrentNode = head;
-            while (ogCurrentNode != null) {       // Includes final element
+            while (ogCurrentNode.link != null) {       // Includes final element
                 ogCurrentNode = ogCurrentNode.link;
                 copyCurrentNode.link = new TariffNode(ogCurrentNode);
                 copyCurrentNode = copyCurrentNode.link;
@@ -47,10 +47,10 @@ public class TariffList implements TariffPolicy {
 
     /**
      * The TariffNode class must be public because the find() method of the linked list returns a TariffNode, not a
-     * Tariff object. So, TradeManager driver needs to be able to access TariffNodes as well.
-     * The class is static because it doesn't require any instance variables from the TariffList class.
+     * Tariff object. So, TradeManager driver needs to be able to access TariffNodes as well. Also because the node
+     * clone() method needs to be tested in the driver
      */
-    public static class TariffNode implements Cloneable {
+    public class TariffNode implements Cloneable {
         private Tariff value = null;
         private TariffNode link = null;
 
@@ -64,7 +64,7 @@ public class TariffList implements TariffPolicy {
 
         public TariffNode(TariffNode other) {
             this.value = new Tariff(other.value);
-            this.link = other.link; // Keeps same link I'm assuming. Might be a privacy leak // TODO check this
+            this.link = null;
         }
 
         public Tariff getValue() {
@@ -91,7 +91,7 @@ public class TariffList implements TariffPolicy {
             try {
                 TariffNode copy = (TariffNode) super.clone();
                 copy.value = value.clone();
-                copy.link = link;
+                copy.link = null;
                 return copy;
             } catch (CloneNotSupportedException e){
                 return null;
@@ -100,7 +100,7 @@ public class TariffList implements TariffPolicy {
 
         /**
          * Checks to see if two nodes have the same data. Does not check to see if they have the same tail, since that
-         * would require making this recursive, and I think that would make it call .equals on every node that follows
+         * would require making this recursive, and I think that would make it call .equals() on every node that follows
          * the current one.
          * @param other node to compare to
          * @return equality of value
@@ -123,6 +123,10 @@ public class TariffList implements TariffPolicy {
     /**
      * Finds a TariffNode in the TariffList based on 3 descriptors. Also prints total amount of iterations used to find
      * the target Node.
+     *
+     * THIS METHOD ALLOWS A PRIVACY LEAK since it returns a TariffNode, which is an object of the inner class.
+     * Because of this method, the inner class must be public so that the driver can use it for its intended function.
+     *
      * @param origin product country of origin
      * @param destination product destination country
      * @param category type of product
@@ -131,7 +135,7 @@ public class TariffList implements TariffPolicy {
     public TariffNode find(String origin, String destination, String category) {
         TariffNode currentNode = head;
         int iterations = 1;
-        String findMsg = "Find method used: %d iterations\n";
+        String findMsg = "(Find method used: %d iterations)\n";
         if (size == 0 || (!criteriaMatches(head, origin, destination, category) && size == 1)) {
             System.out.printf(findMsg, iterations);
             return null;
@@ -157,7 +161,6 @@ public class TariffList implements TariffPolicy {
     /**
      * Inserts a new node at the given index, with the given tariff data. The new node points
      * to the node previously at that index, and the one preceding the index points to the new node.
-     * THIS METHOD CANNOT ADD A NODE TO THE END OF A LIST
      * @param tariff the value of the new node
      * @param index the new node will be inserted right before this. Ex: at 0, new node is inserted before head
      * @throws NoSuchElementException if the index is out of bounds
@@ -167,6 +170,9 @@ public class TariffList implements TariffPolicy {
             addToStart(tariff);
             return;
         }
+        if (index == size) {
+            throw new NoSuchElementException("Insertion aborted. Index range is 0-" + (size - 1));
+        }
         try {
             TariffNode newNode = new TariffNode(tariff, null);
             TariffNode nodeBefore = findAtIndex(index - 1);          // Get the node positioned before the target index
@@ -175,7 +181,8 @@ public class TariffList implements TariffPolicy {
             size++;
         } catch (IndexOutOfBoundsException e) {
 //            throw new NoSuchElementException("Index out of bounds in Linked List.\nIndex: " + index + "\nSize: " + size);
-            throw new NoSuchElementException(e.getMessage());         // Gives a message for empty lists too
+//            throw new NoSuchElementException("Insertion aborted. Issue finding node preceding insertion: " + e.getMessage());         // Gives a message for empty lists too
+            throw new NoSuchElementException("Insertion aborted. Index range is 0-" + (size - 1));
         }
     }
 
@@ -189,12 +196,15 @@ public class TariffList implements TariffPolicy {
             deleteFromStart();
             return;
         }
+        if (index == size) {
+            throw new NoSuchElementException("Deletion aborted. Index range is 0-" + (size - 1));
+        }
         try {
             TariffNode nodeBefore = findAtIndex(index - 1);          // Get the node positioned before the target index
             nodeBefore.link = nodeBefore.link.link;                  // Just point over the next node. Also works for the tail since the link will be null.
             size--;
         } catch (IndexOutOfBoundsException e) {
-            throw new NoSuchElementException(e.getMessage());         // Gives a message for empty lists as well
+            throw new NoSuchElementException("Deletion aborted. Index range is 0-" + (size - 1));         // Gives a message for empty lists as well
         }
     }
 
@@ -212,6 +222,9 @@ public class TariffList implements TariffPolicy {
             replacement.link = head.link;
             head = replacement;
             return;
+        }
+        if (index == size) {
+            return;                                                  // Out of bounds: no action
         }
         try {
             TariffNode nodeBefore = findAtIndex(index - 1);          // Get the node positioned before the target index
@@ -261,6 +274,9 @@ public class TariffList implements TariffPolicy {
         if (size != other.size) {
             return false;
         }
+        if (this == other) {
+            return true;
+        }
         TariffNode ogCurrentNode = head;
         TariffNode otherCurrentNode = other.head;
         while (ogCurrentNode != null) {       // Includes final element
@@ -271,6 +287,19 @@ public class TariffList implements TariffPolicy {
             otherCurrentNode = otherCurrentNode.link;
         }
         return true;
+    }
+
+    public void displayAll() {
+        if (head == null) {
+            System.out.println("Empty list");
+        }
+        TariffNode current = head;
+        int index = 0;
+        while (current != null) {
+            System.out.print("Index: " + index++ + " --> ");
+            System.out.println(current.getValue());
+            current = current.link;
+        }
     }
 
     // HELPER METHODS

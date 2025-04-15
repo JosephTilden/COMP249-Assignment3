@@ -20,6 +20,10 @@ import java.util.Scanner;
  */
 public class Main {
 
+    public static double twoDecimalRound(double userDouble){
+        return (double) Math.round(userDouble*100)/100;
+    }
+
     /**
      * Applies tariff increases to trades (Product prices) based on table given in assigment
      * @param product holds trade data for target trade
@@ -39,39 +43,39 @@ public class Main {
 
         switch (product.getCountry().toLowerCase()) {
             case "china":
-                product.setPrice(initPrice*chinaMultiplier);
+                product.setPrice(twoDecimalRound(initPrice*chinaMultiplier));
                 break;
             case "usa":
                 if (category.equals("electronics"))
-                    product.setPrice(initPrice*usaMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*usaMultiplier));
                 break;
             case "japan":
-                if (category.equals("automobiles"))
-                    product.setPrice(initPrice*japanMultiplier);
+                if (category.equals("automobile"))
+                    product.setPrice(twoDecimalRound(initPrice*japanMultiplier));
                 break;
             case "india":
                 if (category.equals("agriculture"))
-                    product.setPrice(initPrice*indiaMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*indiaMultiplier));
                 break;
             case "south korea":
                 if (category.equals("electronics"))
-                    product.setPrice(initPrice*southKoreaMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*southKoreaMultiplier));
                 break;
             case "saudi arabia":
                 if (category.equals("energy"))
-                    product.setPrice(initPrice*saudiArabiaMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*saudiArabiaMultiplier));
                 break;
             case "germany":
                 if (category.equals("manufacturing"))
-                    product.setPrice(initPrice*germanyMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*germanyMultiplier));
                 break;
             case "bangladesh":
                 if (category.equals("textile"))
-                    product.setPrice(initPrice*bangladeshMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*bangladeshMultiplier));
                 break;
             case "brazil":
                 if (category.equals("agriculture"))
-                    product.setPrice(initPrice*brazilMultiplier);
+                    product.setPrice(twoDecimalRound(initPrice*brazilMultiplier));
                 break;
             default:
         }
@@ -79,7 +83,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<Product> products = new ArrayList<Product>();
-        final String tradeData = "./TradeData.txt";
+        final String tradeData = "src/Part1/TradeData.txt";
 
         // Read da file
         try {
@@ -106,7 +110,7 @@ public class Main {
          */
 
         // Write da file
-        String updatedTradeData = "./UpdatedTradeData.txt";
+        String updatedTradeData = "src/Part1/UpdatedTradeData.txt";
         try{
             PrintWriter outputStream = new PrintWriter(new FileOutputStream(updatedTradeData,false));
             outputStream.print("");//Clear the old content

@@ -78,8 +78,13 @@ public class Tariff implements Cloneable {
     }
 
     public boolean equals(Tariff otherTariff){
-        if (Math.abs(this.minimumTariff-otherTariff.getMinimumTariff())<0.0000001){
-            return (this.destinationCountry.equals(otherTariff.getDestinationCountry())&&this.originCountry.equals(otherTariff.getOriginCountry())&&this.productCategory.equals(otherTariff.getProductCategory()));
+        if (this == otherTariff) {
+            return true;
+        }
+        if (Math.abs(this.minimumTariff - otherTariff.getMinimumTariff()) < 0.0000001){
+            return (this.destinationCountry.equalsIgnoreCase(otherTariff.getDestinationCountry()) &&
+                    this.originCountry.equalsIgnoreCase(otherTariff.getOriginCountry()) &&
+                    this.productCategory.equalsIgnoreCase(otherTariff.getProductCategory()));
         }else{
             return false;
         }

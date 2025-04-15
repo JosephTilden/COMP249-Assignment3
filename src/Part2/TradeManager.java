@@ -8,6 +8,7 @@ package Part2;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -26,14 +27,12 @@ public class TradeManager {
     public static void main(String[] args) {
         System.out.println("Welcome to Joe and Zayden's Thugnificent Tariff Management System 🗣️\n");
         TariffList tariffList1 = new TariffList(); //List used to add the initial tariffs
-        TariffList tariffList2 = new TariffList(); //For copy constructor
-        TariffList tariffList3 = new TariffList(); //For clone method
         ArrayList<TradeRequest> allTradeRequests = new ArrayList<TradeRequest>();
         Scanner reader = null;
         String currentLine;
         try {
             // READING TARIFFS FILE
-            System.out.println("========= Reading Tariffs File =========\n");
+            System.out.println("\n========= Reading Tariffs File =========\n\n");
             reader = new Scanner(new FileReader("src/Part2/Tariffs.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine();
@@ -49,7 +48,7 @@ public class TradeManager {
                 }
             }
             // READING THE TRADE REQUESTS FILE
-            System.out.println("\n========= Evaluating Trade Requests =========\n");
+            System.out.println("\n\n========= Evaluating Trade Requests =========\n\n");
             reader = new Scanner (new FileReader("src/Part2/TradeRequests.txt"));
             while (reader.hasNextLine()){//Ensure there are lines to read
                 currentLine = reader.nextLine(); // Create the trade request object
@@ -94,7 +93,7 @@ public class TradeManager {
 
 
         // USER SEARCH FOR TARIFFS
-        System.out.println("========= Search for a Tariff =========\n");
+        System.out.println("\n========= Search for a Tariff =========\n\n");
         reader = new Scanner(System.in);
         Tariff targetTariff = null;
         while (true) {
@@ -116,13 +115,64 @@ public class TradeManager {
             }
         }
 
-        // TARIFF LIST METHOD TESTING
-        System.out.println("\n========= Demonstration of Methods =========\n");
-        /*
-        Methods to test:
+        // METHOD TESTING
+        System.out.println("\n\n========= Demonstration of Methods =========\n\n");
 
+        System.out.println("--- Clone & equals methods for TariffNode & Tariff ---");
+        TariffList.TariffNode ogTariffNode = tariffList1.find("Bangladesh", "India", "Energy");
+        TariffList.TariffNode clonedTariffNode = ogTariffNode.clone();
+        Tariff ogTariff = ogTariffNode.getValue();
+        Tariff clonedTariff = ogTariffNode.clone().getValue();
+        System.out.println("TariffNode equals cloned TariffNode: " + ogTariffNode.equals(clonedTariffNode));
+        System.out.println("Both point to the same memory location: " + (ogTariffNode == clonedTariffNode));
+        System.out.println("Tariff equals cloned Tariff: " + ogTariff.equals(clonedTariff));
+        System.out.println("Both point to the same memory location: " + (ogTariff == clonedTariff));
 
-         */
+        System.out.println("\n--- Copy constructor and equals method for TariffList ---");
+        TariffList copyList = new TariffList(tariffList1);
+        System.out.println("List equals copied List : " + tariffList1.equals(copyList));
+        System.out.println("Both point to the same memory location: " + (tariffList1 == copyList));
 
+        System.out.println("\n--- Inserting ---");
+        System.out.printf("There are %d tariffs in Tariffs.txt\n", copyList.getSize());
+        tariffList1.displayAll();
+
+        System.out.println("\nInserting at index 3:");
+        Tariff tariff1 = new Tariff("Brazil", "USA", "SECONDHAND DIAPERS", 22);
+        Tariff tariff2 = new Tariff("Brazil", "USA", "VINTAGE TANDEM UNICYCLES", 2);
+        Tariff tariff3 = new Tariff("Brazil", "USA", "MUTANT TURTLES (ADOLESCENT)", 99);
+        copyList.insertAtIndex(tariff3, 3);
+        copyList.displayAll();
+        System.out.printf("There are %d tariffs in Tariffs.txt\n", copyList.getSize());
+
+        System.out.println("\nInserting out of bounds: ");
+        try {
+            copyList.insertAtIndex(tariff1, 7);
+            copyList.displayAll();
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\n--- Deleting ---");
+        System.out.println("From index 1: ");
+        copyList.deleteFromIndex(1);
+        copyList.displayAll();
+        System.out.printf("There are %d tariffs in Tariffs.txt\n", copyList.getSize());
+
+        System.out.println("\nFrom an empty list: ");
+        TariffList emptyList = new TariffList();
+        emptyList.displayAll();
+        emptyList.deleteFromStart();
+
+        System.out.println("\n--- Replacing ---");
+        System.out.println("At index 3: ");
+        copyList.replaceAtIndex(tariff2, 3);
+        copyList.displayAll();
+
+        System.out.println("\nReplacing out of bounds: ");
+        copyList.replaceAtIndex(tariff2, 7);
+        System.out.println("(Just returns)");
+
+        reader.close();
     }
 }
