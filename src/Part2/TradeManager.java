@@ -1,6 +1,6 @@
 //-----------------------------------
 // Assignment 3
-// Question: Part 1: ArrayList & File I/O
+// Question: Part 2: ArrayList & File I/O
 // Written by: Zayden Kung'u (40311065) & Joseph Tilden (40317545)
 //-----------------------------------
 
@@ -85,7 +85,7 @@ public class TradeManager {
             System.out.println("Invalid file name given. More details:\n" + e.getMessage());
             System.exit(0);
         }catch(InputMismatchException e) {
-            System.out.println("There is an improperly formatted line in the current file. More details:\n" + e.getMessage());      // TODO not sure if this should exit the program?
+            System.out.println("There is an improperly formatted line in the current file. Please resolve it. More details:\n" + e.getMessage());      // TODO not sure if this should exit the program?
             assert reader != null;
             reader.close();//Close the scanner regardless of the outcome
             System.exit(0);

@@ -1,6 +1,6 @@
 //-----------------------------------
 // Assignment 3
-// Question: Part 1: ArrayList & File I/O
+// Question: Part 2: Linked Lists
 // Written by: Zayden Kung'u (40311065) & Joseph Tilden (40317545)
 //-----------------------------------
 

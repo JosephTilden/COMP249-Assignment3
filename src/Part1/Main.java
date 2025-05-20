@@ -9,6 +9,7 @@ package Part1;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -86,8 +87,9 @@ public class Main {
         final String tradeData = "src/Part1/TradeData.txt";
 
         // Read da file
+        Scanner scan = null;
         try {
-            Scanner scan = new Scanner(new FileInputStream(tradeData));
+            scan = new Scanner(new FileInputStream(tradeData));
             String trade;
             String[] tradeFields = {};
             Product product;
@@ -102,6 +104,11 @@ public class Main {
             scan.close();
         } catch (FileNotFoundException e) {
             System.out.println("There was an error reading the trade data file. More info:\n" + e.getMessage());
+            System.exit(0);
+        } catch (InputMismatchException e) {
+            System.out.println("There is an improperly formatted line in the current file. Please resolve it. More details:\n" + e.getMessage());      // TODO not sure if this should exit the program?
+            assert scan != null;
+            scan.close();//Close the scanner regardless of the outcome
             System.exit(0);
         }
 
